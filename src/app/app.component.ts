@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'DS2022_30241_coblisan_george_assignment_1_fe';
+  title = 'Energy Platform';
 }

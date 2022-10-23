@@ -1,0 +1,17 @@
+.users-list {
+    display: flex;
+    justify-content: space-around;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.card {
+    height: 40%;
+    width: 50%;
+}
+
+.add-user {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    margin-left: 300px;
+}
