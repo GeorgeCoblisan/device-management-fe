@@ -48,8 +48,13 @@ export class AuthComponent implements OnInit {
 
   checkUserData() {
     if (this.user && this.form.value.email === this.user.email && this.form.value.password === this.user.password) {
-      console.log(this.user);
-      this.router.navigate(['/home']);
+      this.loginService.setUser(this.user);
+      if (this.user.role === 'admin') {
+        this.router.navigate(['/users']);
+      }
+      else if (this.user.role === 'client') {
+        this.router.navigate(['/devices']);
+      }
     }
     else {
       this.error = "Email or password incorrect!";

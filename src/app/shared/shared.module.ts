@@ -8,10 +8,12 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 
 import { AddUserDialogComponent } from "./add-user-dialog/add-user-dialog.component";
+import { AssociateDeviceComponent } from './associate-device/associate-device.component';
 
 @NgModule({
     declarations: [
         AddUserDialogComponent,
+        AssociateDeviceComponent,
     ],
     imports: [
         CommonModule,

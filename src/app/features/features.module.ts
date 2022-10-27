@@ -6,11 +6,13 @@ import { MatButtonModule } from "@angular/material/button";
 
 import { FeaturesRoutingModule } from "./features-routing.module";
 import { UsersComponent } from "./users/users.component";
+import { DevicesComponent } from './devices/devices.component';
 
 
 @NgModule({
     declarations: [
         UsersComponent,
+        DevicesComponent,
     ],
     imports: [
         CommonModule,

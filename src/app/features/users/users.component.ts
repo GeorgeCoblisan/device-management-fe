@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 import { User } from 'src/app/core/models/user.model';
+import { LoginService } from 'src/app/core/services/login.service';
 import { AddUserDialogComponent } from 'src/app/shared/add-user-dialog/add-user-dialog.component';
 import { EnergyApiClientService } from '../services/energy-api-client.service';
 
@@ -26,13 +27,14 @@ export class UsersComponent implements OnInit {
   constructor(
     private energyApiClient: EnergyApiClientService,
     private dialog: MatDialog,
+    private loginService: LoginService,
   ) {}
 
   ngOnInit(): void {
     this.energyApiClient
       .getUsers()
       .subscribe(
-        (users) => (this.users = users.filter((user) => user.role === 'client'))
+        (users) => (this.users = users.filter((user) => user.role === 'client'), this.loginService.setUsers(users))
       );
   }
 
