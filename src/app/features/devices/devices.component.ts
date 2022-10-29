@@ -16,6 +16,8 @@ import { EnergyApiClientService } from '../services/energy-api-client.service';
 export class DevicesComponent implements OnInit, OnChanges {
   userLogged!: User;
 
+  users!: User[];
+
   devices!: Device[];
 
   userEmail!: string;
@@ -40,6 +42,8 @@ export class DevicesComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.userLogged = this.loginService.getUserLogged();
 
+    this.energyApiClient.getUsers().subscribe((users) => this.users = users);
+
     if (this.userLogged.role === 'admin') {
       this.reloadDevices$.next(0);
     } else if (this.userLogged.role === 'client') {
@@ -54,8 +58,7 @@ export class DevicesComponent implements OnInit, OnChanges {
   }
 
   getUserByDevice(userId: string): string {
-    const users = this.loginService.getUsers();
-    return users.find((user) => user.id === userId)?.email!;
+    return this.users.find((user) => user.id === userId)?.email!;
   }
 
   associateDevice(deviceId: string): void {

@@ -10,6 +10,8 @@ export class LoginService {
 
     users!: User[];
 
+    isLoggedIn = false;
+
     constructor(private httpClient: HttpClient) {}
 
     getUser(email: string, password: string): Observable<User> {
@@ -18,10 +20,12 @@ export class LoginService {
 
     setUser(user: User): void {
         this.user = user;
+        this.isLoggedIn = true;
+        localStorage.setItem('user', JSON.stringify(user));
     }
 
     getUserLogged(): User {
-        return this.user;
+        return JSON.parse(localStorage.getItem('user')!) as User;
     }
 
     setUsers(users: User[]): void {
@@ -30,5 +34,14 @@ export class LoginService {
 
     getUsers(): User[] {
         return this.users;
+    }
+
+    isAuthenticated(): boolean {
+        const userLogged = JSON.parse(localStorage.getItem('user')!) as User;
+        if (userLogged) {
+            return true;
+        }
+
+        return false;
     }
 }
