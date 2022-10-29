@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { EnergyApiClientService } from '../services/energy-api-client.service';
   templateUrl: './devices.component.html',
   styleUrls: ['./devices.component.scss'],
 })
-export class DevicesComponent implements OnInit {
+export class DevicesComponent implements OnInit, OnChanges {
   userLogged!: User;
 
   devices!: Device[];
@@ -21,6 +21,10 @@ export class DevicesComponent implements OnInit {
   userEmail!: string;
 
   private reloadDevices$ = new Subject();
+
+  @Output() chartOpen: EventEmitter<string> = new EventEmitter();
+
+  @Input() chartOptions: any;
 
   devices$: Observable<Device[]> = this.reloadDevices$.pipe(
     startWith(undefined),
@@ -43,6 +47,10 @@ export class DevicesComponent implements OnInit {
         .getDevicesByUserId(this.userLogged.id)
         .subscribe((devices) => (this.devices = devices));
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
   }
 
   getUserByDevice(userId: string): string {
@@ -71,5 +79,9 @@ export class DevicesComponent implements OnInit {
 
   refreshDevices(): void {
     this.reloadDevices$.next(0);
+  }
+
+  openChart(deviceId: string) {
+    this.chartOpen.emit(deviceId);
   }
 }

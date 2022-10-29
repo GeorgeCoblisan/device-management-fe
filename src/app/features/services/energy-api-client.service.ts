@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Device } from "src/app/core/models/device.model";
+import { Energy } from "src/app/core/models/energy.model";
 import { User } from "src/app/core/models/user.model";
 import { environment } from "src/environments/environment";
 
@@ -36,5 +37,9 @@ export class EnergyApiClientService {
 
     associateDevice(deviceId: string, userId: string): Observable<Device> {
         return this.httpClient.patch<Device>(`${environment.apiUrl}/device/device/${deviceId}/user/${userId}`, '');
+    }
+
+    getEnergyByDevice(deviceId: string): Observable<Energy[]> {
+        return this.httpClient.get<Energy[]>(`${environment.apiUrl}/energy/${deviceId}`);
     }
 }

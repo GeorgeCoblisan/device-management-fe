@@ -7,12 +7,18 @@ import { MatButtonModule } from "@angular/material/button";
 import { FeaturesRoutingModule } from "./features-routing.module";
 import { UsersComponent } from "./users/users.component";
 import { DevicesComponent } from './devices/devices.component';
+import { EnergyComponent } from './energy/energy.component';
+
+import * as CanvasJSAngularChart from 'src/assets/canvasjs.angular.component';
+var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 
 @NgModule({
     declarations: [
         UsersComponent,
         DevicesComponent,
+        EnergyComponent,
+        CanvasJSChart,
     ],
     imports: [
         CommonModule,
@@ -21,7 +27,9 @@ import { DevicesComponent } from './devices/devices.component';
         MatButtonModule,
     ],
     exports: [
-        UsersComponent
+        UsersComponent,
+        DevicesComponent,
+        EnergyComponent,
     ]
 })
 export class FeaturesModule {}
