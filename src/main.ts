@@ -10,8 +10,3 @@ if (environment.production) {
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
-
-const compression = require('compression')
-const express = require('express')
-const app = express()
-app.use(compression())

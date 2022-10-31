@@ -9,16 +9,15 @@ import { UsersComponent } from "./users/users.component";
 import { DevicesComponent } from './devices/devices.component';
 import { EnergyComponent } from './energy/energy.component';
 
-import * as CanvasJSAngularChart from 'src/assets/canvasjs.angular.component';
-var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
-
+// import * as CanvasJSAngularChart from 'src/assets/canvasjs.angular.component';
+// var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 @NgModule({
     declarations: [
         UsersComponent,
         DevicesComponent,
         EnergyComponent,
-        CanvasJSChart,
+        //CanvasJSChart,
     ],
     imports: [
         CommonModule,
