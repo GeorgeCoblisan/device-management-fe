@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Observable, Subject } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
 
 import { User } from 'src/app/core/models/user.model';
 import { LoginService } from 'src/app/core/services/login.service';
@@ -13,8 +15,6 @@ import { EnergyApiClientService } from '../services/energy-api-client.service';
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit {
-  users$ = this.energyApiClient.getUsers().subscribe();
-
   users: User[] | undefined;
 
   createdUser: User | undefined;
@@ -24,6 +24,13 @@ export class UsersComponent implements OnInit {
   email!: string;
   password!: string;
 
+  private reloadUsers$ = new Subject();
+
+  users$: Observable<User[]> = this.reloadUsers$.pipe(
+    startWith(undefined),
+    switchMap(() => this.energyApiClient.getUsers())
+  );
+
   constructor(
     private energyApiClient: EnergyApiClientService,
     private dialog: MatDialog,
@@ -31,6 +38,7 @@ export class UsersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.reloadUsers$.next(0);
     this.energyApiClient
       .getUsers()
       .subscribe(
@@ -46,14 +54,13 @@ export class UsersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.createdUser = result;
-      this.energyApiClient.createUser(this.createdUser!).subscribe();
-      window.location.reload();
+      this.energyApiClient.createUser(this.createdUser!).subscribe(() => this.refreshUsers());
+      this.reloadUsers$.next(0);
     });
   }
 
   deleteUser(userId: string): void {
-    this.energyApiClient.deleteUser(userId).subscribe();
-    window.location.reload();
+    this.energyApiClient.deleteUser(userId).subscribe(() => this.refreshUsers());
   }
 
   editUser(userId: string): void {
@@ -67,9 +74,12 @@ export class UsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.createdUser = result;
       if (this.createdUser) {
-        this.energyApiClient.editUser(userId, this.createdUser!).subscribe();
+        this.energyApiClient.editUser(userId, this.createdUser!).subscribe(() => this.refreshUsers());
       }
-      window.location.reload();
     });
+  }
+
+  refreshUsers() {
+    this.reloadUsers$.next(0);
   }
 }

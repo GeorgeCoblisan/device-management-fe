@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+
 import { Observable, Subject } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
+
 import { Device } from 'src/app/core/models/device.model';
 import { User } from 'src/app/core/models/user.model';
 import { LoginService } from 'src/app/core/services/login.service';
@@ -58,7 +60,10 @@ export class DevicesComponent implements OnInit, OnChanges {
   }
 
   getUserByDevice(userId: string): string {
-    return this.users.find((user) => user.id === userId)?.email!;
+    if (this.users) {
+      return this.users.find((user) => user.id === userId)?.email!;
+    }
+    return "";
   }
 
   associateDevice(deviceId: string): void {

@@ -3,7 +3,7 @@
         <button mat-raised-button color="primary" (click)="addUser()">Add user</button>
     </div>
 
-    <div class="users-list" *ngFor="let user of users">
+    <div class="users-list" *ngFor="let user of (users$ | async)">
         <div class="card">
             <mat-card>
                 <mat-card-title>{{ user.firstName + ' ' + user.lastName}}</mat-card-title>
