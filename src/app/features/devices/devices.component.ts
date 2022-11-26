@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Socket } from 'ngx-socket-io';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 
 import { Device } from 'src/app/core/models/device.model';
@@ -15,7 +16,7 @@ import { EnergyApiClientService } from '../services/energy-api-client.service';
   templateUrl: './devices.component.html',
   styleUrls: ['./devices.component.scss'],
 })
-export class DevicesComponent implements OnInit, OnChanges {
+export class DevicesComponent implements OnInit, OnChanges, OnDestroy {
   userLogged!: User;
 
   users!: User[];
@@ -35,10 +36,17 @@ export class DevicesComponent implements OnInit, OnChanges {
     switchMap(() => this.energyApiClient.getDevices())
   );
 
+  notification$ = this.socket.fromEvent<any>('notification');
+
+  data$ = this.socket.fromEvent<any>('data');
+
+  private subscriptions: Subscription = new Subscription();
+
   constructor(
     private energyApiClient: EnergyApiClientService,
     private loginService: LoginService,
     private dialog: MatDialog,
+    private socket: Socket,
   ) {}
 
   ngOnInit(): void {
@@ -53,10 +61,28 @@ export class DevicesComponent implements OnInit, OnChanges {
         .getDevicesByUserId(this.userLogged.id)
         .subscribe((devices) => (this.devices = devices));
     }
+
+    this.subscriptions.add(
+      this.notification$.pipe().subscribe((data) => {
+        alert('Maximum limit has been exceeded for this device!');
+        console.log(data);
+      })
+    );
+
+    this.subscriptions.add(
+      this.data$.pipe().subscribe((data) => {
+        alert(data);
+        console.log(data);
+      })
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   getUserByDevice(userId: string): string {
@@ -91,5 +117,14 @@ export class DevicesComponent implements OnInit, OnChanges {
 
   openChart(deviceId: string) {
     this.chartOpen.emit(deviceId);
+  }
+
+  getNotification() {
+    return this.socket.fromEvent('notification');
+  }
+
+  startPolling(): void {
+    console.log("Start polling");
+    this.subscriptions.add(this.energyApiClient.startPolling().subscribe());
   }
 }

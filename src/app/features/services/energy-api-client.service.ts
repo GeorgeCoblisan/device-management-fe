@@ -42,4 +42,8 @@ export class EnergyApiClientService {
     getEnergyByDevice(deviceId: string): Observable<Energy[]> {
         return this.httpClient.get<Energy[]>(`${environment.apiUrl}/energy/${deviceId}`);
     }
+
+    startPolling(): Observable<any> {
+        return this.httpClient.get<any>('http://localhost:8000');
+    }
 }

@@ -1,4 +1,8 @@
 <div class="devices">
+    <div class="start-polling">
+        <button mat-raised-button color="primary" (click)="startPolling()">Start polling</button>
+    </div>
+
     <div *ngIf="userLogged.role === 'admin'">
         <div class="devices-list" *ngFor="let device of (devices$ | async)">
             <div class="card">

@@ -9,6 +9,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { FeaturesModule } from './features/features.module';
 import { SharedModule } from './shared/shared.module';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {withCredentials: false,} };
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +25,7 @@ import { SharedModule } from './shared/shared.module';
     HttpClientModule,
     FeaturesModule,
     SharedModule,
+    SocketIoModule.forRoot(config),
   ],
   providers: [],
   bootstrap: [AppComponent]
