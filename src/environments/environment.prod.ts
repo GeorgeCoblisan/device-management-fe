@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://energyplatformbe.herokuapp.com'
+  apiUrl: 'http://localhost:3000'
 };
