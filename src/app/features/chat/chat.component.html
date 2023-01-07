@@ -1,0 +1,14 @@
+<div class="file">
+    <div class="input">
+        <label>Message</label>
+        <input matInput #message maxlength="256" placeholder="Type" (click)="onClickInput()" (keyup)="onKeyUp($event)" (keyup.enter)="send($event)">
+    </div>
+
+    <div class="list">
+        <div class="messages-list" *ngIf="(messages$ | async) as messages">
+            <div class="item" *ngFor="let message of messages.messages">
+                <p>{{ (message.timestamp | date: 'yyyy/MM/dd h:mm:ss a') + "   |   " +message.message.username +"   |   " + message.message.message }}</p>
+            </div>
+        </div>
+    </div>
+</div>

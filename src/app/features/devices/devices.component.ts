@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 
 import { Observable, Subject, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
@@ -36,9 +36,9 @@ export class DevicesComponent implements OnInit, OnChanges, OnDestroy {
     switchMap(() => this.energyApiClient.getDevices())
   );
 
-  notification$ = this.socket.fromEvent<any>('notification');
+  //notification$ = this.socket.fromEvent<any>('notification');
 
-  data$ = this.socket.fromEvent<any>('data');
+  //data$ = this.socket.fromEvent<any>('data');
 
   private subscriptions: Subscription = new Subscription();
 
@@ -46,7 +46,7 @@ export class DevicesComponent implements OnInit, OnChanges, OnDestroy {
     private energyApiClient: EnergyApiClientService,
     private loginService: LoginService,
     private dialog: MatDialog,
-    private socket: Socket,
+    //private socket: Socket,
   ) {}
 
   ngOnInit(): void {
@@ -62,19 +62,19 @@ export class DevicesComponent implements OnInit, OnChanges, OnDestroy {
         .subscribe((devices) => (this.devices = devices));
     }
 
-    this.subscriptions.add(
-      this.notification$.pipe().subscribe((data) => {
-        alert('Maximum limit has been exceeded for this device!');
-        console.log(data);
-      })
-    );
+    // this.subscriptions.add(
+    //   this.notification$.pipe().subscribe((data) => {
+    //     alert('Maximum limit has been exceeded for this device!');
+    //     console.log(data);
+    //   })
+    // );
 
-    this.subscriptions.add(
-      this.data$.pipe().subscribe((data) => {
-        alert(data);
-        console.log(data);
-      })
-    );
+    // this.subscriptions.add(
+    //   this.data$.pipe().subscribe((data) => {
+    //     alert(data);
+    //     console.log(data);
+    //   })
+    // );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -119,9 +119,9 @@ export class DevicesComponent implements OnInit, OnChanges, OnDestroy {
     this.chartOpen.emit(deviceId);
   }
 
-  getNotification() {
-    return this.socket.fromEvent('notification');
-  }
+  // getNotification() {
+  //   return this.socket.fromEvent('notification');
+  // }
 
   startPolling(): void {
     console.log("Start polling");

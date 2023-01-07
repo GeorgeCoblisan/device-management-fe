@@ -51,4 +51,7 @@ export class ToolbarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  onClickNavigateChat(): void {
+    this.router.navigate(['/chat']);
+  }
 }

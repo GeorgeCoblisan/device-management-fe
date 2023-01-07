@@ -5,6 +5,9 @@ import { Device } from "src/app/core/models/device.model";
 import { Energy } from "src/app/core/models/energy.model";
 import { User } from "src/app/core/models/user.model";
 import { environment } from "src/environments/environment";
+import { ChatMessage } from "../chat/models/chat-message";
+import { ChatMessageResponse, ChatMessageResponseList } from "../chat/models/chat-message-response";
+import { GetChatMessageRequest } from "../chat/models/get-chat-message-request";
 
 
 @Injectable({providedIn: 'root'})
@@ -45,5 +48,17 @@ export class EnergyApiClientService {
 
     startPolling(): Observable<any> {
         return this.httpClient.get<any>('http://localhost:8000');
+    }
+
+    sendMessage(message: ChatMessage): Observable<ChatMessageResponse> {
+        return this.httpClient.post<ChatMessageResponse>(`${environment.apiUrl}/hero/test`, message);
+    }
+
+    getMessage(username: GetChatMessageRequest): Observable<ChatMessageResponseList> {
+        return this.httpClient.get<ChatMessageResponseList>(`${environment.apiUrl}/hero/test`);
+    }
+
+    editMessage(message: string, seen: string, typing: string): Observable<ChatMessage> {
+        return this.httpClient.patch<ChatMessage>(`${environment.apiUrl}/hero/test/${message}/${seen}/${typing}`, '');
     }
 }

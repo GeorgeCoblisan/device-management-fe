@@ -8,6 +8,8 @@ import { FeaturesRoutingModule } from "./features-routing.module";
 import { UsersComponent } from "./users/users.component";
 import { DevicesComponent } from './devices/devices.component';
 import { EnergyComponent } from './energy/energy.component';
+import { ChatComponent } from "./chat/chat.component";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 // import * as CanvasJSAngularChart from 'src/assets/canvasjs.angular.component';
 // var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
@@ -17,6 +19,7 @@ import { EnergyComponent } from './energy/energy.component';
         UsersComponent,
         DevicesComponent,
         EnergyComponent,
+        ChatComponent,
         //CanvasJSChart,
     ],
     imports: [
@@ -24,11 +27,13 @@ import { EnergyComponent } from './energy/energy.component';
         FeaturesRoutingModule,
         MatCardModule,
         MatButtonModule,
+        MatSnackBarModule,
     ],
     exports: [
         UsersComponent,
         DevicesComponent,
         EnergyComponent,
+        ChatComponent,
     ]
 })
 export class FeaturesModule {}
